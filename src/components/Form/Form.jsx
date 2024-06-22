@@ -6,13 +6,16 @@ import PostCard from '../Card/PostCard';
 
 const Form = () => {
 
+    const tagsList = ['html', 'css', 'js', 'php'];
+
     // Post di default
     const defaultPostData = {
+        id: new Date().toISOString(),
         title: '',
         image: '',
         content: '',
-        published: true,
-        tags: []
+        tags: [],
+        published: true
     }
 
     // useState dei nuovi Posts
@@ -36,6 +39,15 @@ const Form = () => {
 
 
         return errors;
+    }
+
+    // Campo dei Tags
+    const handleField = (name, value) => {
+
+        setPostData(curr => ({
+            ...curr,
+            [name]: value
+        }))
     }
 
     // Submit del Form
@@ -117,28 +129,56 @@ const Form = () => {
                                 onChange={(e) => changePostData('content', e.target.value)}
                             />
                         </div>
+
+                        {/* Input Tags */}
+                        <div>
+                            <h3>Tags</h3>
+                            <ul>
+                                {tagsList.map((name, i) => (
+                                    <li key={`tag-${i}`}>
+                                        <input
+                                            id={`tag-${i}`}
+                                            name={`tag-${i}`}
+                                            type='checkbox'
+                                            checked={postData.tags.includes(name)}
+                                            onChange={() => {
+                                                const curr = postData.tags;
+                                                const newTags = curr.includes(name) ?
+                                                    curr.filter(el => el !== name) :
+                                                    [...curr, name];
+                                                handleField('tags', newTags);
+                                            }}
+                                        />
+                                        <label htmlFor={`tag-${i}`}>{name}</label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
                         <div className={formStyle.cardBtn}>
                             <button>Crea</button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div >
 
             <h3>Lista dei nuovi Post</h3>
-            {posts.map(({ title, image, content, published, tags }, i) => (
-                <div key={`post${i}`} className={formStyle.postCard}>
-                    <PostCard
-                        title={title}
-                        image={image}
-                        content={content}
-                        published={published}
-                        tags={tags}
-                    />
-                    <button className={formStyle.deleteBtn} onClick={() => removePost(i)}>
-                        <Delete />
-                    </button>
-                </div>
-            ))}
+            {
+                posts.map(({ title, image, content, published, tags }, i) => (
+                    <div key={`post${i}`} className={formStyle.postCard}>
+                        <PostCard
+                            title={title}
+                            image={image}
+                            content={content}
+                            published={published}
+                            tags={tags}
+                        />
+                        <button className={formStyle.deleteBtn} onClick={() => removePost(i)}>
+                            <Delete />
+                        </button>
+                    </div>
+                ))
+            }
         </>
     );
 }
