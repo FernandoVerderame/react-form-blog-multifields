@@ -15,11 +15,12 @@ const Form = () => {
         image: '',
         content: '',
         tags: [],
-        published: true
+        published: false
     }
 
     // useState dei nuovi Posts
     const [posts, setPosts] = useState([]);
+    console.log(posts);
 
     // useState del singolo nuovo Post
     const [postData, setPostData] = useState(defaultPostData);
@@ -137,9 +138,9 @@ const Form = () => {
                                 {tagsList.map((name, i) => (
                                     <li key={`tag-${i}`}>
                                         <input
+                                            type='checkbox'
                                             id={`tag-${i}`}
                                             name={`tag-${i}`}
-                                            type='checkbox'
                                             checked={postData.tags.includes(name)}
                                             onChange={() => {
                                                 const curr = postData.tags;
@@ -155,6 +156,18 @@ const Form = () => {
                             </ul>
                         </div>
 
+                        {/* Input Published */}
+                        <div className={formStyle.published}>
+                            <label htmlFor="published">Pubblicato</label>
+                            <input
+                                id='published'
+                                name='published'
+                                type='checkbox'
+                                checked={postData['published']}
+                                onChange={(e) => handleField('published', e.target.checked)}
+                            />
+                        </div>
+
                         <div className={formStyle.cardBtn}>
                             <button>Crea</button>
                         </div>
@@ -164,14 +177,15 @@ const Form = () => {
 
             <h3>Lista dei nuovi Post</h3>
             {
-                posts.map(({ title, image, content, published, tags }, i) => (
-                    <div key={`post${i}`} className={formStyle.postCard}>
+                posts.map(({ id, title, image, content, tags, published }, i) => (
+                    published === true &&
+                    <div key={id} className={formStyle.published}>
                         <PostCard
                             title={title}
                             image={image}
                             content={content}
-                            published={published}
                             tags={tags}
+                            className={formStyle.postCard}
                         />
                         <button className={formStyle.deleteBtn} onClick={() => removePost(i)}>
                             <Delete />
