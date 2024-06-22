@@ -15,7 +15,7 @@ const Form = () => {
         title: '',
         image: '',
         content: '',
-        category: '',
+        category: null,
         tags: [],
         published: false
     }
@@ -201,14 +201,13 @@ const Form = () => {
             {
                 posts.map(({ id, title, image, content, category, tags, published }, i) => (
                     published === true &&
-                    <div key={id} className={formStyle.published}>
+                    <div key={id} className={formStyle.postCard}>
                         <PostCard
                             title={title}
                             image={image}
                             content={content}
                             category={category}
                             tags={tags}
-                            className={formStyle.postCard}
                         />
                         <button className={formStyle.deleteBtn} onClick={() => removePost(i)}>
                             <Delete />
