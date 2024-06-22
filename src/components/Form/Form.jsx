@@ -7,6 +7,7 @@ import PostCard from '../Card/PostCard';
 const Form = () => {
 
     const tagsList = ['html', 'css', 'js', 'php'];
+    const categoriesList = ['Frontend', 'Backend', 'Database'];
 
     // Post di default
     const defaultPostData = {
@@ -14,13 +15,13 @@ const Form = () => {
         title: '',
         image: '',
         content: '',
+        category: '',
         tags: [],
         published: false
     }
 
     // useState dei nuovi Posts
     const [posts, setPosts] = useState([]);
-    console.log(posts);
 
     // useState del singolo nuovo Post
     const [postData, setPostData] = useState(defaultPostData);
@@ -131,6 +132,27 @@ const Form = () => {
                             />
                         </div>
 
+                        {/* Input Category */}
+                        <div>
+                            <h3>Categoria</h3>
+                            <select
+                                id="category"
+                                name="category"
+                                defaultValue={postData.category}
+                                onChange={(e) => changePostData('category', e.target.value)}
+                                className={formStyle.categorySelect}
+                            >
+                                <option value="">Seleziona una categoria</option>
+                                {categoriesList.map((category, i) => (
+                                    <option
+                                        key={`category-${i}`}
+                                        value={category}>
+                                        {category}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
                         {/* Input Tags */}
                         <div>
                             <h3>Tags</h3>
@@ -177,13 +199,14 @@ const Form = () => {
 
             <h3>Lista dei nuovi Post</h3>
             {
-                posts.map(({ id, title, image, content, tags, published }, i) => (
+                posts.map(({ id, title, image, content, category, tags, published }, i) => (
                     published === true &&
                     <div key={id} className={formStyle.published}>
                         <PostCard
                             title={title}
                             image={image}
                             content={content}
+                            category={category}
                             tags={tags}
                             className={formStyle.postCard}
                         />

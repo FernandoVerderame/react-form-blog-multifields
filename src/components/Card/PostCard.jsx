@@ -1,7 +1,7 @@
 import postCardStyle from './PostCard.module.css';
 import Button from '../Button/Button';
 
-const PostCard = ({ title, content, image, tags }) => {
+const PostCard = ({ title, content, image, category, tags }) => {
 
     const tagColors = {
         html: '#E4552E',
@@ -20,7 +20,17 @@ const PostCard = ({ title, content, image, tags }) => {
                     <h3>{title}</h3>
                     <p className={postCardStyle.paragraph}>{content}</p>
                     <div className={postCardStyle.dFlex}>
+                        {/* Button card */}
                         <Button />
+
+                        {/* Post Category */}
+                        {category &&
+                            <div>
+                                <p><strong>{category}</strong></p>
+                            </div>
+                        }
+
+                        {/* Post Tags */}
                         {tags.length > 0 ? (
                             <div>
                                 <ul className={postCardStyle.tags}>

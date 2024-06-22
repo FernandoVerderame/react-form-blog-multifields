@@ -93,3 +93,12 @@ li {
     display: flex;
     gap: 10px;
 }
+
+.categorySelect {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
